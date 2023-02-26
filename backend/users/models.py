@@ -13,7 +13,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     date_of_birth = models.DateField()
     is_active = models.BooleanField(default=True)
     staff = models.BooleanField(default=False) # a admin user; non super-user
-    admin = models.BooleanField(default=False) # a superuser
 
     objects = MyUserManager()
     USERNAME_FIELD = 'email'
@@ -40,16 +39,5 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         "Does the user have permissions to view the app `app_label`?"
         # Simplest possible answer: Yes, always
         return True
-
-    @property
-    def is_staff(self):
-        "Is the user a member of staff?"
-        return self.staff
-
-    @property
-    def is_admin(self):
-        "Is the user a admin member?"
-        return self.admin
-
 
 

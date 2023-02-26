@@ -31,12 +31,15 @@ INSTALLED_APPS = [
 
     # local applications
     'users.apps.UsersConfig',
+    'Post.apps.PostConfig',
+    'Profile.apps.ProfileConfig',
 
     # third party applications
     'drf_yasg',
     'rest_framework',
     'djoser',
     'rest_framework_simplejwt',
+    'phonenumber_field',
     'corsheaders',
 ]
 
