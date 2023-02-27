@@ -4,6 +4,10 @@ from drf_yasg import openapi
 from django.contrib import admin
 from django.urls import path, re_path, include
 
+from django.conf import settings
+from django.conf.urls.static import static
+
+
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -30,4 +34,6 @@ urlpatterns = [
     path('profile/',include('Profile.urls')),
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),
-]
+]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+

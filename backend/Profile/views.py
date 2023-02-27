@@ -6,6 +6,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework.views import APIView
 from .models import Profile
+from rest_framework.parsers import MultiPartParser
+
 
 
 
@@ -13,12 +15,14 @@ from .models import Profile
 class ViewProfile(APIView):
     serializer_class = ProfileSerializer
     permission_classes = [IsAuthenticated]
+    parser_classes = (MultiPartParser,)
 
     def get(self, request):
         user = request.user
-        user_profile = Profile.object.get(user=user)
+        user_profile = Profile.objects.get(user=user)
         serializer = self.serializer_class(user_profile)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 

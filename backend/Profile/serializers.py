@@ -15,6 +15,18 @@ class CustomUserSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
     user = CustomUserSerializer()
     phone_number =PhoneNumberField()
+    image_url = serializers.ReadOnlyField()
     class Meta:
         model = Profile
-        fields = ('id', 'user', 'email','phone_number','sex','location','Profession')
+        fields = ('id', 'user', 'email','phone_number','sex','location','Profession', 'image_url','profile_image')
+
+        def to_representation(self, instance):
+            representation = super().to_representation(instance)
+            representation.pop("profile_image")
+
+            return representation
+
+class UpdateProfile(serializers.ModelSerializer):
+    pass
+
+

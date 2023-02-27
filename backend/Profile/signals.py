@@ -21,3 +21,4 @@ def updateuser(sender,instance,created,**kwargs):
     user = profile.user
     if created == False:
         user.email = profile.email
+        
