@@ -71,3 +71,17 @@ class PostDetailView(APIView):
         return Response({"Message":"Sorry you are not allowed to do this"}, status=status.HTTP_401_UNAUTHORIZED)
 
 
+
+class LikePost(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        user = request.user
+        post = get_object_or_404(Post, unique_id=pk)
+
+        if post.likes.filter(id=user.id).exists():
+            post.likes.remove(request.user)
+        else:
+            post.likes.add(request.user)
+
+        return Response({"Message":"Post Like was successful"}, status=status.HTTP_201_CREATED)
