@@ -13,6 +13,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     date_of_birth = models.DateField()
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False) # a admin user; non super-user
+    created_at = models.DateTimeField(auto_now=False, auto_now_add=True)
+    update_at = models.DateField(auto_now=True)
 
     objects = MyUserManager()
     USERNAME_FIELD = 'email'
@@ -39,6 +41,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         "Does the user have permissions to view the app `app_label`?"
         # Simplest possible answer: Yes, always
         return True
-    
+
 
 
