@@ -2,7 +2,9 @@ from django.db import models
 from users.models import CustomUser
 from phonenumber_field.modelfields import PhoneNumberField
 from cloudinary.models import CloudinaryField
-
+from django.db.models.signals import pre_delete
+import cloudinary
+from django.dispatch import receiver
 
 
 GENDER_CHOICES = (
@@ -30,3 +32,11 @@ class Profile(models.Model):
 
     def __str__(self):
         return str(self.phone_number)
+
+
+
+
+# deleted the porfile image once the user deletes the account
+@receiver(pre_delete, sender=Profile)
+def photo_delete(sender, instance, **kwargs):
+    cloudinary.uploader.destroy(instance.image.public_id)

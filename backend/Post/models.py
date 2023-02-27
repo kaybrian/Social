@@ -4,6 +4,9 @@ from cloudinary.models import CloudinaryField
 from django.urls import reverse
 import uuid
 from django.template.defaultfilters import slugify
+from django.db.models.signals import pre_delete
+import cloudinary
+from django.dispatch import receiver
 
 
 
@@ -34,3 +37,10 @@ class Post(models.Model):
     def __str__(self):
         return str(self.unique_id)
 
+
+
+
+# delete the image from Cloundinary whenever the post is deleted
+@receiver(pre_delete, sender=Post)
+def photo_delete(sender, instance, **kwargs):
+    cloudinary.uploader.destroy(instance.image.public_id)
