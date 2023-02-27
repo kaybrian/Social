@@ -27,6 +27,14 @@ class ProfileSerializer(serializers.ModelSerializer):
             return representation
 
 class UpdateProfile(serializers.ModelSerializer):
-    pass
+    class Meta:
+        model = Profile
+        fields = ('email','sex','location','Profession', 'image_url','profile_image')
+
+        def to_representation(self, instance):
+            representation = super().to_representation(instance)
+            representation.pop("profile_image")
+
+            return representation
 
 
