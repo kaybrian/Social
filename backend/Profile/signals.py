@@ -16,10 +16,6 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 
 @receiver(post_save, sender=Profile)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
-
-@receiver(post_save, sender=Profile)
 def updateuser(sender,instance,created,**kwargs):
     profile = instance
     user = profile.user

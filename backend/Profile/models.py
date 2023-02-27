@@ -17,7 +17,4 @@ class Profile(models.Model):
     Profession = models.CharField(max_length=350, null=True, blank=True)
 
     def __str__(self):
-        return self.phone_number
-
-
-
+        return str(self.phone_number)

@@ -18,15 +18,16 @@ class MyUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, name, email, date_of_birth, password):
+    def create_superuser(self, name, email, date_of_birth, password, **extra_fields):
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_superuser", True)
+        extra_fields.setdefault("is_active", True)
         user = self.create_user(
-            email,
             name,
+            email,
             date_of_birth,
             password,
+            **extra_fields
         )
-        user.is_staff = True
-        user.is_admin = True
-        user.is_superuser = True
         user.save(using=self._db)
         return user
