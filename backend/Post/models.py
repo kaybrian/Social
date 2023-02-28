@@ -38,6 +38,26 @@ class Post(models.Model):
         return str(self.unique_id)
 
 
+class Comment(models.Model):
+    unique_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    post = models.ForeignKey('Post', on_delete=models.CASCADE)
+    author = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    comment = models.TextField()
+    likes = models.ManyToManyField(CustomUser, related_name='comment_like')
+    created_on = models.DateTimeField(auto_now=False, auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+
+    def number_of_likes(self):
+        return self.likes.count()
+
+    class Meta:
+        ordering = ['-created_on']
+
+    def __str__(self):
+        return f'Comment on post by {self.author.name}'
+
+
+
 
 
 # delete the image from Cloundinary whenever the post is deleted
