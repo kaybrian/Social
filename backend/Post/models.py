@@ -46,6 +46,7 @@ class Comment(models.Model):
     likes = models.ManyToManyField(CustomUser, related_name='comment_like')
     created_on = models.DateTimeField(auto_now=False, auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True, related_name='+')
 
     def number_of_likes(self):
         return self.likes.count()
@@ -57,8 +58,15 @@ class Comment(models.Model):
     def __str__(self):
         return f'Comment on post by {self.user.name}'
 
+    @property
+    def children(self):
+        return Comment.objects.filter(parent=self).order_by('-created_on').all()
 
-
+    @property
+    def is_parent(self):
+        if self.parent is None:
+            return True
+        return False
 
 
 # delete the image from Cloundinary whenever the post is deleted

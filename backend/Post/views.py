@@ -118,6 +118,19 @@ class AddComment(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class AddCommentToComment(APIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = AddCommentSerializer
+
+    def get(self, request,pk):
+        comment = get_object_or_404(Comment, unique_id=pk)
+        comments = Comment.objects.all().filter(parent=comment).order_by('-created_on')
+        serializer = self.serializer_class(comments, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+
+
 
 class LikeComment(APIView):
     permission_classes = [IsAuthenticated]
