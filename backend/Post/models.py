@@ -41,7 +41,7 @@ class Post(models.Model):
 class Comment(models.Model):
     unique_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     post = models.ForeignKey('Post', on_delete=models.CASCADE)
-    author = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     comment = models.TextField()
     likes = models.ManyToManyField(CustomUser, related_name='comment_like')
     created_on = models.DateTimeField(auto_now=False, auto_now_add=True)
@@ -50,11 +50,12 @@ class Comment(models.Model):
     def number_of_likes(self):
         return self.likes.count()
 
+
     class Meta:
         ordering = ['-created_on']
 
     def __str__(self):
-        return f'Comment on post by {self.author.name}'
+        return f'Comment on post by {self.user.name}'
 
 
 

@@ -20,13 +20,15 @@ class PostSerializer(serializers.ModelSerializer):
             representation.pop("image")
             return representation
 
-
-class AddCommentSerializer(serializers.ModelSerializer):
-    author = CustomUserSerializer()
-    post = PostSerializer()
+class AddCommentToPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = ('author','post','comment','likes','created_on')
+        fields = ('unique_id','comment',)
+
+class AddCommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ('unique_id','user','post','comment','likes','created_on')
 
 class PostsSerilizer(serializers.ModelSerializer):
     user = CustomUserSerializer()
@@ -43,7 +45,3 @@ class PostsSerilizer(serializers.ModelSerializer):
 
 # adding comments to the posts
 
-class AddCommentToPostSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Comment
-        fields = ('comment',)

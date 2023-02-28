@@ -13,9 +13,9 @@ admin.site.register(Post, PostAdmin)
 
 
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('unique_id','post','author','created_on')
-    search_fields = ('author','likes','post')
-    list_filter = ('post','author','created_on',)
+    list_display = ('unique_id','post','user','created_on')
+    search_fields = ('user','likes','post')
+    list_filter = ('post','user','created_on',)
     ordering = ('likes','created_on')
 
 admin.site.register(Comment, CommentAdmin)

@@ -111,9 +111,25 @@ class AddComment(APIView):
 
         if serializer.is_valid():
             serializer.save(
-                author=user,
+                user=user,
                 post=post
             )
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class LikeComment(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        user = request.user
+        comment = get_object_or_404(Comment, unique_id=pk)
+
+        if comment.likes.filter(id=user.id).exists():
+            comment.likes.remove(request.user)
+        else:
+            comment.likes.add(request.user)
+
+        return Response({"Message":"Comment Like was successful"}, status=status.HTTP_201_CREATED)
+
