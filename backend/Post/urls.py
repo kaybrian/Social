@@ -8,7 +8,7 @@ urlpatterns = [
     path('post/<str:pk>/like/', views.LikePost.as_view(), name="like_post"),
     path('post/<str:pk>/comments/',views.AddComment.as_view(), name='comments'),
     path('comment/<str:pk>/like/',views.LikeComment.as_view(), name='like_comments'),
-    path('comment/<str:pk>/comments/',views.AddCommentToComment.as_view(), name="comment_on_comments"),
+    path('post/<str:post_pk>/comment/<str:comment_pk>/comments/',views.AddCommentToComment.as_view(), name="comment_on_comments"),
 
 ]
 
